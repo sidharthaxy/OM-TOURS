@@ -1,0 +1,8 @@
+# Ignore .env files in both frontend and backend
+omtours_frontend-main/.env
+omtours-be-main/.env
+
+# Optional: Node and build artifacts
+**/node_modules/
+**/dist/
+**/build/
