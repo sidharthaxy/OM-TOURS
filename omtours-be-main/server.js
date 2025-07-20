@@ -16,7 +16,7 @@ import searchRoutes from "./route/search.route.js";
 
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = [process.env.API_BASE, 'http://localhost:5173'];
+const allowedOrigins = [process.env.GOOGLE_REDIRECT_URI, 'http://localhost:5173'];
 
 app.use(cors({
     origin: (origin, callback) => {

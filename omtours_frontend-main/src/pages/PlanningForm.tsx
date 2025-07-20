@@ -117,11 +117,11 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
     if(user){
       console.log("Data Sent to Database");
-      await axios.get(`${import.meta.env.VITE_API_BASE}/search/${formData.source}`);
-      await axios.get(`${import.meta.env.VITE_API_BASE}/search/${formData.destination}`);
+      await axios.get(`https://om-tours.onrender.com/search/${formData.source}`);
+      await axios.get(`https://om-tours.onrender.com/search/${formData.destination}`);
   }
     try {
-       const response = await axios.post(`${import.meta.env.VITE_API_BASE}/plan`, formData);
+       const response = await axios.post(`$https://om-tours.onrender.com/plan`, formData);
 
       console.log('Success:', response.data);
     } catch (error) { 

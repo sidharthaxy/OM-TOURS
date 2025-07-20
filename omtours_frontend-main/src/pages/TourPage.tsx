@@ -48,7 +48,7 @@ function TourPage() {
       useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_BASE}/gemini/responses`);
+                const response = await axios.get(`https://om-tours.onrender.com/gemini/responses`);
                 
                 let rawData = (response.data as string).trim();
                 if (rawData.startsWith("```json")) {
@@ -90,7 +90,7 @@ function TourPage() {
 
     try {
       setRegenerating(true);
-      const response = await axios.post<Block>(`${import.meta.env.VITE_API_BASE}/gemini/regenerate`, {
+      const response = await axios.post<Block>(`https://om-tours.onrender.com/gemini/regenerate`, {
         previousBlocks: selectedBlocks,
         date: currentDay.date,
         time: currentBlock.time,
@@ -227,7 +227,7 @@ const handleAddToCalendar = async () => {
           end: endTime.toISOString(),
         };
 
-        await axios.post(`${import.meta.env.VITE_API_BASE}/api/v1/auth/create-event`, eventPayload, {
+        await axios.post(`https://om-tours.onrender.com/api/v1/auth/create-event`, eventPayload, {
           withCredentials: true,
         });
       }

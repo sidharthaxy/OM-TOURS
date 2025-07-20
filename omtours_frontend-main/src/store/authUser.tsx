@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { create } from "zustand";
 
 // Axios config
-axios.defaults.baseURL = `${import.meta.env.VITE_API_BASE}`;
+axios.defaults.baseURL = "https://om-tours.onrender.com";
 axios.defaults.withCredentials = true;
 
 // -------------------- Types --------------------
