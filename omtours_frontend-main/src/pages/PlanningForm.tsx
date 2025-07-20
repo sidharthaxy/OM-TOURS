@@ -121,7 +121,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       await axios.get(`https://om-tours.onrender.com/search/${formData.destination}`);
   }
     try {
-       const response = await axios.post(`$https://om-tours.onrender.com/plan`, formData);
+       const response = await axios.post(`https://om-tours.onrender.com/plan`, formData);
 
       console.log('Success:', response.data);
     } catch (error) { 
