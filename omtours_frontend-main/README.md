@@ -1,159 +1,192 @@
 # 🌍 Om Tours Frontend
 
-A modern, blazing-fast ✈️ **React + TypeScript** frontend for the **Om Tours** travel platform.  
-🌐 **Live**
+A modern, blazing-fast ✈️ **React + TypeScript** frontend for the **Om Tours** travel platform.
 
 ---
 
-## 📚 Table of Contents
-
-- [📌 Overview](#-overview)  
-- [✨ Features](#-features)  
-- [🛠️ Tech Stack](#-tech-stack)  
-- [📁 Project Structure](#-project-structure)  
-- [🚀 Getting Started](#-getting-started)  
-- [📜 Scripts](#-scripts)  
-- [🧩 Key Components & Pages](#-key-components--pages)  
-- [🔐 Authentication Flow](#-authentication-flow)  
-- [🚢 Deployment](#-deployment)  
-- [🤝 Contribution](#-contribution)  
-- [📄 License](#-license)  
-- [🔗 Links](#-links)  
+## 📋 Table of Contents
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Technical Flow](#-technical-flow)
+- [Getting Started](#-getting-started)
+- [Scripts](#-scripts)
+- [Key Components & Pages](#-key-components--pages)
+- [Authentication Flow](#-authentication-flow)
+- [Deployment](#-deployment)
+- [Contribution](#-contribution)
+- [License](#-license)
+- [Links](#-links)
 
 ---
 
 ## 📌 Overview
-
-Om Tours is a modern single-page application (SPA) built with **React + Vite + TypeScript** to provide a smooth and elegant tour/travel booking experience.  
-It’s responsive, secure, and designed for **fast iterations** and **clean structure**.  
+Om Tours is a modern single-page application (SPA) built with **React + Vite + TypeScript** to provide a smooth and elegant tour/travel booking experience. It’s responsive, secure, and designed for fast iterations and clean structure.
 
 ---
 
 ## ✨ Features
-
-✅ User Authentication (Login / Sign Up)  
-🏠 Home page with featured destinations  
-🎥 Watch / Tour detail pages  
-🔍 Tour Search + Search History  
-🔔 Toast notifications for instant feedback  
-📱 Responsive UI for all devices  
-🔒 Protected Routes for logged-in users  
+- ✅ User Authentication (Google OAuth 2.0)
+- 📅 One-click add itinerary to Google Calendar
+- 🏠 Home page with featured destinations
+- 🎥 Tour detail pages
+- 🔍 Tour Search + Search History
+- 🔔 Toast notifications for instant feedback
+- 📱 Responsive UI for all devices
+- 🔒 Protected Routes for logged-in users
+- 🗺️ Location view and planning form
+- ⚡ Fast loading and optimized assets
 
 ---
 
 ## 🛠️ Tech Stack
-
 | Tech               | Purpose                          |
 |--------------------|----------------------------------|
 | ⚛️ React           | Frontend framework                |
 | 🟦 TypeScript       | Type-safe development             |
-| ⚡ Vite             | Superfast build & dev tool       |
-| 🔁 React Router DOM| Client-side routing               |
-| 🌐 Axios            | API requests                     |
-| 🔔 React Hot Toast | Toast notifications              |
-| 🧩 Lucide React     | Clean icon set                   |
-| 🎨 CSS              | Styling                          |
+| ⚡ Vite             | Superfast build & dev tool        |
+| 🔁 React Router DOM | Client-side routing               |
+| 🌐 Axios            | API requests                      |
+| 🔔 React Hot Toast  | Toast notifications               |
+| 🧩 Lucide React     | Clean icon set                    |
+| 🎨 CSS              | Styling                           |
 
 ---
 
 ## 📁 Project Structure
-![image](https://github.com/user-attachments/assets/b6ef5de0-d1cc-4e0b-9745-789ba03a6908)
+```
+src/
+  App.tsx           # App root, routing & auth logic
+  main.tsx          # Entry point
+  App.css, index.css
+  components/
+    ui/
+      breadcrumb.tsx
+  lib/
+    utils.ts
+  pages/
+    Account.tsx
+    ErrorPage.tsx
+    LocationView.tsx
+    PlanningForm.tsx
+    TourPage.tsx
+  store/
+    authUser.tsx
+public/
+  avatar2.png, explore.png, logo.png, ...
+```
 
+---
+
+## 🔄 Technical Flow
+- **App Initialization:**
+  - Loads global state and checks authentication via `authUser.tsx` store.
+  - Sets up routes using React Router DOM.
+- **Authentication:**
+  - All authentication is handled via Google OAuth 2.0 (no separate login/signup forms).
+  - User must authenticate with Google to generate a travel plan or add itinerary to calendar.
+  - If not authenticated, attempting to generate a travel plan or access protected features will show a toast: "You are not logged in".
+  - JWT or Google tokens are managed in the global auth store.
+- **Tour Search & Details:**
+  - Search queries sent to backend; results displayed on `TourPage.tsx`.
+  - Search history stored per user.
+- **Location & Planning:**
+  - `LocationView.tsx` and `PlanningForm.tsx` handle location-based features and trip planning.
+- **Google Calendar Integration:**
+  - After authentication, users can add their itinerary to Google Calendar with one click.
+- **UI/UX:**
+  - Toast notifications for feedback.
+  - Responsive design for all devices.
 
 ---
 
 ## 🚀 Getting Started
-
 ### 📦 Prerequisites
-
-- Node.js `v16+`  
+- Node.js `v16+`
 - npm or yarn
 
-### 🛠 Installation
-
+### ⚙️ Installation
 ```bash
-git clone https://github.com/amanraula/omtours_frontend.git
-cd omtours_frontend
+git clone <your-repo-url>
+cd omtours_frontend-main
 npm install
-▶️ Run Locally
-bash
-Copy
-Edit
+```
+
+### ▶️ Run Locally
+```bash
 npm run dev
-Open your browser at http://localhost:5173
+# Open http://localhost:5173
+```
 
-🏗️ Build for Production
-bash
-Copy
-Edit
+### 🏗️ Build for Production
+```bash
 npm run build
-👀 Preview Production Build
-bash
-Copy
-Edit
+```
+
+### 👀 Preview Production Build
+```bash
 npm run preview
-📜 Scripts
-Command	Description
-npm run dev	Start local dev server
-npm run build	Type-check & build project
-npm run preview	Preview production build locally
+```
 
-🧩 Key Components & Pages
-App.tsx – App root, routing & auth logic
+---
 
-HomePage.tsx – Landing page with featured content
+## 📄 Scripts
+| Command         | Description                  |
+|-----------------|-----------------------------|
+| npm run dev     | Start local dev server       |
+| npm run build   | Type-check & build project   |
+| npm run preview | Preview production build     |
 
-LoginPage.tsx / SignUpPage.tsx – User forms
+---
 
-WatchPage.tsx – Tour detail display
+## 🧩 Key Components & Pages
+- `App.tsx` – App root, routing & auth logic
+- `pages/Account.tsx` – User account page
+- `pages/ErrorPage.tsx` – Error handling
+- `pages/LocationView.tsx` – Location-based features
+- `pages/PlanningForm.tsx` – Trip planning form
+- `pages/TourPage.tsx` – Tour detail display
+- `store/authUser.tsx` – Manages user auth state
+- `components/ui/breadcrumb.tsx` – UI breadcrumb
 
-SearchPage.tsx – Search UI for tours
+---
 
-SearchHistoryPage.tsx – User's past queries
+## 🔒 Authentication Flow
+- All authentication is via Google OAuth 2.0; no separate login/signup forms.
+- User must be authenticated to generate travel plans or add to calendar.
+- If not authenticated, attempting to generate a travel plan or add to calendar will show a toast: "You are not logged in".
+- Auth state is managed globally via `store/authUser.tsx`.
+- Protected routes: `/tour/:id`, `/account`, `/planning`, etc.
+- On app load, auth status is checked before rendering protected content.
 
-Footer.tsx – Footer across pages
+---
 
-authUser.ts – Manages user auth state
+## 🛳️ Deployment
+- Live on Vercel (or your preferred platform)
+- For your own deployment:
+  - Fork this repo
+  - Connect to Vercel
+  - Import project and deploy
 
-🔐 Authentication Flow
-🔄 Auth state is managed globally via authUser.ts store
+---
 
-🔒 Protected Routes: /watch/:id, /search, /history
+## 🤝 Contribution
+- Fork the repo
+- Create a branch: `git checkout -b feature/my-feature`
+- Commit your changes
+- Push & open a PR
 
-🧾 Unauthenticated users are redirected to login/signup
+---
 
-✅ On app load, auth status is checked before rendering protected content
+## 📄 License
+MIT License (Check LICENSE file for full info)
 
-🚢 Deployment
-🚀 Live on Vercel
-For your own deployment:
+---
 
-Fork this repo
-
-Connect to Vercel
-
-Import project and deploy
-
-Done! ⚡
-
-🤝 Contribution
-👥 Want to contribute?
-
-Fork the repo
-
-Create a branch: git checkout -b feature/my-feature
-
-Commit your changes
-
-Push & open a PR
-
-📄 License
-📝 MIT License (Check LICENSE file for full info)
-
-🔗 Links
-🌐 Live Demo
-
-📦 GitHub Repository
+## 🔗 Links
+- 🌐 Live Demo: <your-demo-link>
+- 📦 GitHub Repository: <your-repo-link>
 
 Om Tours Frontend is a ✨ clean, extensible starting point ✨ for building modern travel & booking web apps.
 Have ideas or bugs? Open an issue!

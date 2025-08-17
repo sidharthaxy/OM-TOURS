@@ -1,86 +1,117 @@
-# 🧭 OmTours Backend
+# 🦭 OmTours Backend
 
 A powerful, modular 🌐 **Node.js + Express** backend powering the OmTours travel platform.  
-Handles authentication, tour management, weather integration, and more!  
-**Live**
+Handles authentication, tour management, Google Calendar integration, and more!
 
 ---
 
-## 📚 Table of Contents
+## 📋 Table of Contents
 
-- [📌 Overview](#-overview)  
-- [✨ Features](#-features)  
-- [🛠 Tech Stack](#-tech-stack)  
-- [📁 Project Structure](#-project-structure)  
-- [⚙️ Setup & Installation](#-setup--installation)  
-- [▶️ Running the Server](#-running-the-server)  
-- [📂 Folder & File Guide](#-folder--file-guide)  
-- [📡 API Overview](#-api-overview)  
-- [🔐 Authentication & Security](#-authentication--security)  
-- [🚀 Deployment](#-deployment)  
-- [🤝 Contribution](#-contribution)  
-- [📄 License](#-license)  
-- [🎖️ Credits & Extras](#-credits--extras)  
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Technical Flow](#-technical-flow)
+- [Setup & Installation](#-setup--installation)
+- [Running the Server](#-running-the-server)
+- [Folder & File Guide](#-folder--file-guide)
+- [API Overview](#-api-overview)
+- [Authentication & Security](#-authentication--security)
+- [Deployment](#-deployment)
+- [Contribution](#-contribution)
+- [License](#-license)
+- [Credits & Extras](#-credits--extras)
 
 ---
 
 ## 📌 Overview
 
-The **OmTours Backend** is a clean, scalable REST API built with **Node.js** and **Express.js**.  
-It connects seamlessly and includes features like:
+The **OmTours Backend** is a clean, scalable REST API built with **Node.js** and **Express.js**. It connects seamlessly with the frontend and includes features like:
 
-- 🔒 Secure user auth (JWT + bcrypt)
+- 🔒 Secure user auth (Google OAuth 2.0)
+- 📅 Google Calendar integration for one-click itinerary add
 - ✈️ Tour CRUD operations
-- 🌤 Weather data via API
-- 🧱 MVC architecture
-- 🧰 Clean middleware structure
+- 🧑‍💻 MVC architecture
+- 🧹 Clean middleware structure
 
 ---
 
 ## ✨ Features
 
-- 👥 User authentication (signup/login)
-- ✍️ Create, read, update, delete (CRUD) tours
-- 🌦 Weather data for destinations
-- 🧱 Modular MVC structure
+- 👤 User authentication via Google OAuth 2.0 (login/signup unified)
+- 📅 One-click add itinerary to Google Calendar
+- 📝 Create, read, update, delete (CRUD) tours
+- 🧑‍💻 Modular MVC structure
 - 🔒 Protected routes with middleware
 - ⚠️ Error handling & validation
+- 🤖 Gemini AI/chatbot integration (optional)
 
 ---
 
-## 🛠 Tech Stack
+## 🛠️ Tech Stack
 
 | Tech         | Purpose                          |
 |--------------|----------------------------------|
-| 🟢 Node.js   | JavaScript runtime               |
+| 🟩 Node.js   | JavaScript runtime               |
 | 🚂 Express.js | RESTful API framework            |
 | 🍃 MongoDB    | NoSQL database (via Mongoose)    |
-| 🛡 JWT       | Authentication tokens            |
-| 🔐 bcryptjs  | Password hashing                 |
-| 🌿 dotenv     | Environment variable management  |
+| 🔑 Google OAuth2.0 | Authentication & Calendar API |
+| 🔑 bcryptjs  | Password hashing (legacy, if any) |
+| 🌱 dotenv     | Environment variable management  |
 
 ---
 
 ## 📁 Project Structure
 
-omtours-be/
-├── config/ # DB & environment setup
-├── controllers/ # Business logic per route
-├── gemini/ # (Optional) AI/chatbot integration
-├── middleware/ # Auth, validation, error handlers
-├── models/ # Mongoose schemas
-├── route/ # Express route definitions
-├── utils/ # Helper functions
-├── weather/ # Weather API logic
-├── .gitignore
-├── package.json
-├── server.js # Entry point
+```
+omtours-be-main/
+  config/         # DB & environment setup
+    db.js
+    envVars.js
+  controllers/    # Business logic per route
+    auth.controller.js
+    search.controller.js
+  gemini/         # (Optional) AI/chatbot integration
+    gemroutes.js
+  middleware/     # Auth, validation, error handlers
+    protectRoute.js
+  models/         # Mongoose schemas
+    user.model.js
+  route/          # Express route definitions
+    auth.route.js
+    planroute.js
+    search.route.js
+  utils/          # Helper functions
+    encryption.js
+    generateToken.js
+  server.js       # Entry point
+  package.json
+  README.md
+```
 
-yaml
-Copy
-Edit
+---
 
-🧱 Follows **MVC (Model-View-Controller)** for maintainability & clarity.
+## 🔄 Technical Flow
+
+- **App Initialization:**
+  - Loads environment variables and connects to MongoDB via `config/db.js`.
+  - Sets up Express app and middleware (CORS, JSON parsing, etc).
+- **Authentication:**
+  - All authentication is handled via Google OAuth 2.0 (no separate login/signup endpoints).
+  - User must authenticate with Google to generate a travel plan or access protected features.
+  - If not authenticated, backend responds with an error and frontend shows a toast: "You are not logged in".
+  - User info and tokens are managed in the `User` model.
+- **Google Calendar Integration:**
+  - After authentication, users can add their itinerary to Google Calendar with one click.
+  - Calendar events are created using Google Calendar API.
+- **Tour & Planning:**
+  - Tour CRUD and planning logic handled in respective controllers and routes.
+- **Search:**
+  - Search logic in `controllers/search.controller.js` and `route/search.route.js`.
+- **Gemini AI (Optional):**
+  - AI/chatbot features via `gemini/gemroutes.js`.
+- **Error Handling:**
+  - Centralized error handling and validation middleware.
 
 ---
 
@@ -90,132 +121,124 @@ Edit
 
 - Node.js `v16+`
 - MongoDB (Local or Atlas)
+- Google Cloud Project (OAuth credentials)
 - npm (or yarn)
 
-### 🚀 Installation
+### 🛠️ Installation
 
 ```bash
-# Clone the repo
-git clone https://github.com/amanraula/omtours-be.git
-cd omtours-be
-
-# Install dependencies
+git clone <your-repo-url>
+cd omtours-be-main
 npm install
-
-# Setup environment variables
 cp .env.example .env
-# Edit .env with your MongoDB URI, JWT secret, etc.
-▶️ Running the Server
-💻 Development
-bash
-Copy
-Edit
+# Edit .env with your MongoDB URI, Google OAuth credentials, etc.
+```
+
+---
+
+## ▶️ Running the Server
+
+### 💻 Development
+
+```bash
 npm run dev
-✨ Auto-reloads with nodemon.
-Runs on http://localhost:5000 by default.
+# Auto-reloads with nodemon. Runs on http://localhost:5000 by default.
+```
 
-📦 Production
-bash
-Copy
-Edit
+### 🏭 Production
+
+```bash
 npm start
-📂 Folder & File Guide
-Folder/File	Description
-config/	DB connection & environment config
-controllers/	Handles API logic for users/tours
-gemini/	(Optional) Chatbot or AI-related logic
-middleware/	Auth checks, validation, error catching
-models/	Mongoose schemas (User, Tour)
-route/	API endpoints setup
-utils/	Helpers (token creation, validators, etc.)
-weather/	Weather API fetching & processing
-server.js	Express app entry + DB connection
+```
 
-📡 API Overview
-🔐 Auth
-POST /api/auth/signup – Register a user
+---
 
-POST /api/auth/login – Login and receive JWT
+## 📂 Folder & File Guide
 
-🗺 Tours
-GET /api/tours – Fetch all tours
+| Folder/File         | Description                        |
+|---------------------|------------------------------------|
+| config/             | DB connection & environment config  |
+| controllers/        | Handles API logic for users/tours   |
+| gemini/             | (Optional) Chatbot/AI logic         |
+| middleware/         | Auth checks, validation, errors     |
+| models/             | Mongoose schemas (User, etc.)       |
+| route/              | API endpoints setup                 |
+| utils/              | Helpers (token creation, etc.)      |
+| server.js           | Express app entry + DB connection   |
 
-POST /api/tours – Create new tour (admin only)
+---
 
-GET /api/tours/:id – Get tour by ID
+## 📡 API Overview
 
-PUT /api/tours/:id – Update tour (admin only)
+### 🔑 Auth
 
-DELETE /api/tours/:id – Delete tour (admin only)
+- `GET /api/auth/google` – Initiate Google OAuth 2.0 flow
+- `GET /api/auth/google/callback` – Google OAuth callback
 
-☀️ Weather
-GET /api/weather/:location – Get current weather for a city
+### 🗺️ Tours & Planning
 
-🧪 Use Postman or Thunder Client for testing endpoints.
+- `GET /api/tours` – Fetch all tours
+- `POST /api/tours` – Create new tour (admin only)
+- `GET /api/tours/:id` – Get tour by ID
+- `PUT /api/tours/:id` – Update tour (admin only)
+- `DELETE /api/tours/:id` – Delete tour (admin only)
 
-🔐 Authentication & Security
-🧾 JWT Auth: Users receive a token upon login; required in Authorization header for protected routes.
+### 📅 Calendar
 
-🔐 bcryptjs: Passwords are hashed before saving to DB.
+- `POST /api/calendar/add` – Add itinerary to Google Calendar (requires authentication)
 
-🛡 Middleware: Validates requests, protects endpoints, and handles errors.
+### 🔍 Search
 
-🔒 Environment Vars: Secrets like DB URIs and JWT keys stored safely in .env.
+- `GET /api/search` – Search tours/locations
 
-🚀 Deployment
-Set up your .env file with production-ready secrets.
+---
 
-Deploy on:
+## 🔒 Authentication & Security
 
-Render
+- All authentication is via Google OAuth 2.0; no separate login/signup endpoints.
+- User must be authenticated to generate travel plans or add to calendar.
+- If not authenticated, backend returns error and frontend shows a toast: "You are not logged in".
+- Tokens and user info are securely managed in the database.
+- Environment Vars: Secrets like DB URIs and Google OAuth keys stored safely in .env.
 
-Railway
+---
 
-[VPS/EC2/Droplet]
+## 🚀 Deployment
 
-Heroku (legacy)
+- Set up your .env file with production-ready secrets and Google OAuth credentials.
+- Deploy on Render, Railway, VPS, or Vercel (for serverless).
+- Run:
 
-Run:
-
-bash
-Copy
-Edit
+```bash
 npm install
 npm start
-⚠️ Remember to allow incoming ports (e.g., 5000).
+```
 
-🤝 Contribution
-👋 Want to help improve OmTours?
+- Remember to allow incoming ports (e.g., 5000).
 
-bash
-Copy
-Edit
-# Fork the repo
-# Create your branch
-git checkout -b feature/your-feature
+---
 
-# Commit your changes
-git commit -m "feat: added awesome feature"
+## 🤝 Contribution
 
-# Push & PR
-git push origin feature/your-feature
-📄 License
-📝 MIT License
+- Fork the repo
+- Create your branch: `git checkout -b feature/your-feature`
+- Commit your changes
+- Push & open a PR
 
-🎖️ Credits & Extras
-👨‍💻 Authors
-Aman Raula
+---
 
-Spandan Mishra
+## 📄 License
 
-💎 Extras
-Modular codebase for easy scaling
+MIT License
 
-Weather integration adds practical value
+---
 
-Designed for seamless frontend connection
+## 🎖️ Credits & Extras
 
-Follows Node.js best practices & clean code standards
+- 👨‍💻 Authors: Aman Raula, Spandan Mishra
+- 💎 Modular codebase for easy scaling
+- 📅 Google Calendar integration for seamless planning
+- 🔗 Designed for seamless frontend connection
+- 🧹 Follows Node.js best practices & clean code standards
 
-💡 Have ideas or facing issues?
-📬 Open an issue — we’d love to hear from you!
+💡 Have ideas or facing issues? Open an issue — we’d love to hear from you!
