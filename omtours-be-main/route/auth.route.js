@@ -5,7 +5,7 @@ import { protectRoute } from "../middleware/protectRoute.js";
 const router = express.Router();
 
 router.post("/login", login);
-router.post("/logout", logout);
+router.post("/logout", protectRoute, logout);
 router.get("/authCheck", protectRoute, authCheck);
 router.post("/create-event",protectRoute,createEvent);
 

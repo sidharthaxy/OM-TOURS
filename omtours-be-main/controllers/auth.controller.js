@@ -122,11 +122,45 @@ export async function createEvent(req, res) {
 }
 
 export async function logout(req, res) {
+  console.log("Logout initiated");
 	try {
+		// 1. Identify user (depends on how you attach user info)
+		const userEmail = req.user?.email; // make sure your auth middleware sets req.user
+
+		if (userEmail) {
+			// 2. Find the user
+			const user = await User.findOne({ email: userEmail });
+
+			if (user?.refreshToken) {
+				// 3. Decrypt refresh token
+				const decryptedToken = decrypt(user.refreshToken);
+
+				// 4. Revoke refresh token at Google (optional but recommended)
+				try {
+					await axios.post(
+						`https://oauth2.googleapis.com/revoke?token=${decryptedToken}`,
+						null,
+						{ headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+					);
+					console.log("Google refresh token revoked");
+				} catch (revokeError) {
+					console.warn("Failed to revoke Google token:", revokeError.message);
+				}
+
+				// 5. Remove refreshToken field from DB
+				await User.updateOne(
+					{ email: userEmail },
+					{ $unset: { refreshToken: "" } }
+				);
+			}
+		}
+
+		// 6. Clear the cookie
 		res.clearCookie("omtours-jwt");
+
 		res.status(200).json({ success: true, message: "Logged out successfully" });
 	} catch (error) {
-		console.log("Logout Error:", error.message);
+		console.error("Logout Error:", error.message);
 		res.status(500).json({ success: false, message: "Internal server error" });
 	}
 }

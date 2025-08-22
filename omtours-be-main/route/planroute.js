@@ -74,9 +74,9 @@ router.post('/', async (req, res) => {
     /* */
 
     /**/
-    const currentwet = await axios.post("http://localhost:8000/weather/currentwet", {
-        location:formData.destination,
-      });
+    // const currentwet = await axios.post("http://localhost:8000/weather/currentwet", {
+    //     location:formData.destination,
+    //   });
     console.log("/******/");
     // console.log("weather api response:", currentwet.data);
     // console.log("weather api response:", {
@@ -97,9 +97,9 @@ router.post('/', async (req, res) => {
     // });
     /* */
     /**/
-    const futurewet = await axios.post("http://localhost:8000/weather/futurewet", {
-      location:formData.destination,
-    });
+    // const futurewet = await axios.post("http://localhost:8000/weather/futurewet", {
+    //   location:formData.destination,
+    // });
   console.log("/******/");
   // console.log("weather api response:", currentwet.data);
   // console.log(`Future weather api response for :${futurewet.data.location.localtime}`, {
