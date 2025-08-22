@@ -156,7 +156,12 @@ export async function logout(req, res) {
 		}
 
 		// 6. Clear the cookie
-		res.clearCookie("omtours-jwt");
+		res.clearCookie("omtours-jwt", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      path: "/",   // 👈 good practice
+    });
 
 		res.status(200).json({ success: true, message: "Logged out successfully" });
 	} catch (error) {
